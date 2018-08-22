@@ -53,6 +53,7 @@ export {
 							["CaptureLoss::LOG"] = "capture_loss",
 							["Cluster::LOG"] = "cluster",
 							["Communication::LOG"] = "communication",
+							["PCR::LOG"] = "pcr",
 							["Conn::LOG"] = "conn",
 							["DHCP::LOG"] = "dhcp",
 							["DNP3::LOG"] = "dnps",

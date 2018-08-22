@@ -100,7 +100,7 @@ KafkaWriter::KafkaWriter(WriterFrontend* frontend) : WriterBackend(frontend)
     client_id[client_id_len] = 0;
 
     json_formatter = new threading::formatter::AddingJSON(this,
-    								threading::formatter::AddingJSON::TS_MILLIS,
+    								threading::formatter::AddingJSON::TS_ISO8601,
     								sensor_name,
     								type_name,
     								BifConst::KafkaLogger::logstash_style_timestamp
@@ -234,6 +234,9 @@ threading::Field** KafkaWriter::MakeFields(const threading::Field* const* fields
 
 bool KafkaWriter::DoInit(const WriterInfo& info, int num_fields, const threading::Field* const* fields)
 {
+	// if no global 'topic_name' is defined, use the log stream's 'path'
+        topic_name = const_cast<char*>( info.path );
+
 	conf = RdKafka::Conf::create(RdKafka::Conf::CONF_GLOBAL);
 	tconf = RdKafka::Conf::create(RdKafka::Conf::CONF_TOPIC);
 	// note: hard-coding to use the random partitioner right now...
